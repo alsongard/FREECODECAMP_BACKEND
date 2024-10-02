@@ -1,7 +1,9 @@
 const admin = "Ms. Susan";
 const technicial = "Mr. Esau";
 const laboratory = "Mrs. Dorcas";
-const lecture = "Mr. Swalah"
+const lecture = "Mr. Swalah";
+
+const items = ["Item_1", "Item_2"];
 
 console.log(module); // returns an object
 
@@ -19,3 +21,5 @@ paths.forEach((element) => {
 
 //explicity export the 3 variables technical, laboratory and lecture
 module.exports = {technicial, laboratory, lecture};
+
+module.exports = {items};
