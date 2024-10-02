@@ -14,8 +14,14 @@ app.get("/", (req,res)=>{
 
 
 app.post("/api/products", (req, res)=>{
-    console.log(req.body); //from user
-    res.send(req.body);
+    try
+    {
+
+    }
+    catch(error)
+    {
+        res.status(500).json({message: message.error}); //status 500 is a server error
+    }
 })
 
 mongoose.connect("mongodb+srv://alsongard:UBsTr9zfJlQSE07E@backend.brhgn.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Backend")
