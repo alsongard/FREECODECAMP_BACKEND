@@ -8,4 +8,4 @@ const bytesWritten = fs.writeSync(fd, data);
 
 console.log(`Total bytes written : ${bytesWritten}`);
 
-fs.closeSync(fg);
+fs.closeSync(fd);
