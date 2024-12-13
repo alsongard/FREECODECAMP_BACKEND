@@ -1,4 +1,4 @@
-const amount = 19;
+const amount = 22;
 console.log(typeof(amount));
 if (amount < 20)
 {
@@ -8,3 +8,4 @@ else
 {
     console.log(`Large number : ${amount}`);
 };
+console.log("hello I just setup nodemon");
