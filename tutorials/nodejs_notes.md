@@ -136,11 +136,9 @@ readFile("filePath",'utf-8', (err, result)=>{
 While in this the result will be displayed in text(aplhanumeric characters).
 
 **Remember: asynchronous enables you to execute other statements while other main blocks or functions are still being executed while synchronous the code is executed sequentially, meaning that a longer operation or process must be finished for the next code statement to be executed.**
-
-
 Asynchronous uses promises and callback functions.
 
-http module:
+**http module:**  
 when working with htpp module, one can create a server through the following:
 ```
 const http = require('node:http');
@@ -197,3 +195,19 @@ OR
 - pre-built code
 
 
+
+**event module:**
+In the events we are concerned with the on and emit functions.  
+The on is first declared which is suppose to listen for the event. The event to listen should have the same name | be the same.   
+Followed by the emit() function which initiates the event.
+```
+const EventEmitter = require("node:events")
+
+const customEmitter = new Eventemitter()
+
+customerEmitter.on("response", (name, location)=>{
+    console.log(data recieved from ${name} at {locatoin})
+})
+
+customerEmitter.emit('response', 'johnte", "Nairobi")
+```
