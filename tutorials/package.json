@@ -5,7 +5,7 @@
   "main": "tutorials",
   "scripts": {
     "start": "node 1_intro.js",
-    "dev": "nodemon 1_intro.js"
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
