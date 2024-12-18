@@ -211,3 +211,20 @@ customerEmitter.on("response", (name, location)=>{
 
 customerEmitter.emit('response', 'johnte", "Nairobi")
 ```
+
+
+## streams
+- writeable : used to write data sequentialy
+- readable : read data sequentially
+- duplex: read and write data sequentially
+- transform : data can be modified in reading and writting
+
+
+```
+const {createReadStream} = require("fs")
+const stream = createReadStream("./content/big.txt")
+
+stream.on("data", (result)=>{
+    console.log(data)
+})
+```
