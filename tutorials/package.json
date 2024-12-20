@@ -5,11 +5,14 @@
   "main": "tutorials",
   "scripts": {
     "start": "node 1_intro.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon ./express-tutorial/app.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }
