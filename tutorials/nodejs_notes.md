@@ -225,6 +225,111 @@ const {createReadStream} = require("fs")
 const stream = createReadStream("./content/big.txt")
 
 stream.on("data", (result)=>{
-    console.log(data)
+    console.log(result)
 })
 ```
+
+
+types of http messages:
+1. http request messages - this is a message from the client
+2. http response messages - this is a message from the server
+
+Structure of http messages is:
+startline
+header
+optional body
+
+
+**response.end() :**
+This method signals to the server that all of the response headers and body have been sent; that server should consider this message complete. The method, response.end(), MUST be called on each response.
+
+**writeHead()**
+to pass more information about the response we:
+```
+const http = require("node:http")
+const server = http.createServer((request, repsonse)=>{
+    response.writeHead(200, {'content-type': 'text/html'})
+    response.write("<h1>Hello World</h1>");
+    response.end()
+})
+```
+
+*HTTP METHODS:*
+GET : Read data 
+POST : insert data
+PUT : update data
+DELETE : delete data
+
+
+
+
+## EXPRESS
+
+```
+npm i express --save
+
+const express = require("express");
+
+const app = express() // const server = http.createServer()
+
+// app.get | display
+// app.post | insert
+// app.delete | delete
+// app.put  | update
+// app.all |
+// app.use | 
+// app.listen
+
+app.get("/", (request, response)=>{
+    response.send("<h1>Hello World</h1>")
+})
+app.listen(5000, ()=>{
+    console.log("Listening on port 5000..")
+})
+```
+
+The following code has the same defect in that for any links such as styles and images need to be given in their own app.get() function and the url to be the same with that of the browser link in html code in inspection 
+```
+app.get("/index.html", (request, response)=>{
+    response.sendFile(path.join(__dirname, "html_files", "index.html"))
+})
+```
+
+To resolve this problem we place external files to a static folder called public which will have stylesheet files, image files e.t.c  
+Also you can host other pages by using th app.get() function
+
+Example:
+```
+const path = require("path")
+const express = require("express")
+const app = express()
+
+app.use(express.static(path.join(__dirname, "public")))
+
+app.get("/", (request, response)=>{
+    response.sendFile(path.join(__dirname, "html_files", "index.html"))
+})
+
+app.get("/about", (response, request)=>{
+    response.sendFile(path.join(__dirname, "html_files", "about.html"))
+})
+
+```
+
+Lastly we could move all files to the static public fodler and by default when the user 
+is servered with the response, the index file (index.html) is displayed by default on the browser. *confirmed it's working*
+
+
+Express JS  
+API vs SSR
+Express can either be used to setup server side rendering template or api(application program interface).  
+**API**  
+api http interface setup to interact with data. the data is send in json(javascript object notation). To send back our response we use res.json() method which performs all the heavy lifting that is setting the content type e.t.c
+server provides data & any front-end app can perform a http request.
+**SSR**  
+server side rendering, we setup templates and send entire html, css and javascript by using res.render() method.
+
+
+[res.json()](https://expressjs.com/en/5x/api.html#res.json)
+json response sends a response which is the argument given and converts it into a json string using JSON.stringify
+takes in an object
