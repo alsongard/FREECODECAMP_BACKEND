@@ -5,6 +5,9 @@ app.get("/", (request, response)=>{
     // console.log(request)
     // response.json({full_name: "Elon Musk",  company: ["tesla", "spacex", "twitter"]})  
     response.json(product)
+});
+app.get("/users", (request, response)=>{
+    response.json({"full_names": "Elon Musk", "company":["spacex", "twitter", "tesla"]})
 })
 
 app.listen(5000, ()=>{
