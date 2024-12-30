@@ -312,7 +312,7 @@ const server = http.createServer((request, repsonse)=>{
 })
 ```
 
-*HTTP METHODS:*
+**HTTP METHODS:**  
 GET : Read data 
 POST : insert data
 PUT : update data
@@ -343,7 +343,8 @@ app.listen(5000, ()=>{
 })
 ```
 
-The following code has the same defect in that for any links such as styles and images need to be given in their own app.get() function and the url to be the same with that of the browser link in html code in inspection 
+The following code has the same defect in that for any links such as styles and images need to be given in 
+their own app.get() function and the url to be the same with that of the browser link in html code in inspection 
 ```
 app.get("/index.html", (request, response)=>{
     response.sendFile(path.join(__dirname, "html_files", "index.html"))
@@ -494,6 +495,10 @@ app.get("/api/products/query", (request, response)=>{
     response.send("<h1>Welcome to Query Strings</h1>");
 })
 ```
+singleQuery:
+``localhost:5000?name=john``
+to work with multiple queries use the ampersand (&):
+``localhost:5000?name=john&age=23``
 
 
 ## working with middlware:
@@ -532,7 +537,7 @@ app.get("/", logger, (request, response)=>{
 *Example 2:*
 ```
 function logger(request, response, next)
-{
+{ 
     const url = request.url;
     const method =request.method;
     const year = new Date().getFullYear();
@@ -601,3 +606,205 @@ app.get("/about", (request, response)=>{
     response.send("<h1>Logger middleware is applied to each Route</h1>");
 })
 ```
+
+**working with multiple middlware**
+step : 1 crete file and middleware function
+```
+const authorize = (request, response, next)=>{
+    // get query object
+    const {user} = request.url;
+    if (user === "john")
+    {
+        // created an new property for request Object
+        req.user = {name: "john", id:23};
+        next();
+    }
+    else{
+        res.status(401).send("Unauthorized");
+    }
+};
+module.exports = authorize;
+```
+
+In app.js file:
+```
+const express = require("express");
+const app = express();
+app.use([new_logger, authorize]);
+app.get("/", (request, response)=>{
+    response.send("<h1>I gotcha</h1>");
+});
+app.get("/api/products", (request, response)=>{
+    response.send("<h1>Product Items</h1>");
+});
+
+```
+You could also pass more than 1 middleware directly to the function without using app.get() function
+```
+app.get("/", [new_logger, authorize], (response,request)=>{
+    response.send("<h1>HomePage</h1>")
+})
+```
+
+express also has it's own middleware functions an example is  express.static() method. Used for holding external source files such as css and javascript.
+``app.use(express.static(path.join(__dirname, "public")))``
+
+**IMPORTANT**
+By default when a user request a page or a resource from the server the default method used is ``GET`` : ``localhost:5500/api/products/...``
+
+
+## POST & GET METHODS
+**POST METHOD:**
+when using static() middleware and no app.get() function  has been set to the home url ("/") route, the page displayed will be the file in the public folder.
+``app.use(express.static(path.join(__dirname, "methods_public"))``
+
+1. Traditional Form Data Submission
+Steps:
+create html file with the following
+```
+<form action="/login" method="POST">
+    <input type="text">
+    <input type="submit" value="submit">
+</form>
+
+```
+On submit if you haven't specified the ``/login`` url in app.js file you will get the error ``Cannot get /login 404``
+It is required for one to create a route for the given url in app.js file
+```
+app.post("/login", (request, response)=>{
+    response.send("POST working");
+});
+```
+
+To get the data we are required to use a middleware:
+```
+app.use(express.urlencoded({extended: false}));
+// to access the data we:
+app.post("/login", (request, response)=>{
+    const formData = request.body;
+    console.log(formData);
+    response.status(200)send("POST working");
+
+})
+```
+
+
+2. Javascript Form Submission
+step 1: create javascript form  
+step 2: create result div  
+step 3: display the data from "/api/people" using axios get method.
+step 4: take user data using post method.
+step 5: display new user input data using appendChild
+```
+<form>
+    <input type="text" name="name" id="name" class="form-input" placeholder="Enter fullname..."/>
+    <small class="form-alert"></small>
+    <input id="submit" type="submit" value="submit"/>
+</form>
+
+<div class="resut"></div>
+// get axios using cdn 
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script  type="text/javascript">
+        const result = document.querySelector(".result");
+        const fetchPeople =  async ()=>{
+            try{
+                const data = await axios.get("/api/people");
+                console.log(data);
+                console.log(data.data)
+                console.log(data.data.success);
+                console.log(data.data.data);
+                console.log(data.data.data.people);
+                let myArray = data.data.data.people;
+                console.log(myArray);
+                let user_names = []
+                for (let i = 0; i < myArray.length; i++)
+                {
+                    console.log(myArray[i].name);
+                    user_names.push(myArray[i].name);
+                }
+                
+                console.log(`user_names array : ${user_names} : type: ${typeof(user_names)}`);
+                // create array object and append data
+                const people = user_names.map((user_name)=>{
+                    return user_name;
+                })
+                console.log(`people data type : ${typeof(people)} and data : ${people}`);
+                // console.log(typeof(people))
+                user_names.forEach((userName)=>{
+                    const p = document.createElement('p');
+                    p.textContent = userName;
+                    result.appendChild(p);
+
+                })
+            }
+            catch(error)
+            {
+                result.innerHTML = "<div class=alert alert-danger'>Can't fetch Data</div>"
+            }
+        }
+        fetchPeople();
+
+        const btn = document.getElementById("submit");
+        const input = document.querySelector(".form-input");
+        const formAlert = document.querySelector(".form-alert");
+
+        btn.addEventListener("click", async (event)=>{
+            event.preventDefault();
+            const nameValue = input.value;
+            console.log(`value of input ${nameValue}`);
+            try{
+                const {data} = await axios.post("/api/people", {name: nameValue});
+                console.log(`data type of data is : ${typeof(data)}`)
+                console.log("data object is : ")
+                console.log(data)
+                console.log("data.success is :")
+                console.log(data.sucess)
+                console.log("data.data is :")
+                console.log(data.data)
+                const new_user = data.data;
+
+                console.log(`Name of new_user is : ${new_user}`)
+                const p = document.createElement("p");
+                console.log(p);
+                p.textContent = new_user;
+                result.appendChild(p);
+            }
+            catch(error)
+            {
+                formAlert.textContent = error.response.data.msg;
+            };
+            input.value = '';
+
+        })
+    </script>
+```
+
+in app.js file we add the given route for the form submission
+```
+app.post("/api/people", (request, response)=>{
+    res.status(201).send("Success");
+})
+```
+
+*Now to handle the data being submitted in the javascript form we use:*
+Later on use the following:
+```
+app.post("/api/people", (request, response)=>{
+    const {name} = request.body;
+    // console.log(`Type of request body is : ${request.body} and data is : ${request.body}`)
+    console.log(name); // prints out the value inpute by the user as an object
+    if (name)
+    {
+        response.status(201).json({sucess:true, data: name})
+    }
+    else{
+        response.status(400).json({success:false, msg:"please provide value"})
+    }
+});
+```
+
+
