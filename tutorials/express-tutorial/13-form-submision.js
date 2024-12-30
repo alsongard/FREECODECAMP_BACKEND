@@ -1,3 +1,4 @@
+// file handler for form submission on traditional and Javascript forms.
 const express = require("express");
 const peopleData  = require("./new_data.js");
 const app = express();

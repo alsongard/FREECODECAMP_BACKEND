@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>Javascript Form</title>
+</head>
+<body>
+    <header>
+        <h1>HTTP METHODS</h1>
+        <div>
+            <p><a href="./index.html">Regular </a></p>
+            <p><a href="./javascipt.html">Javascript</a></p>
+        </div>
+    </header>
+    <form>
+        <input type="text" name="name" id="name" class="form-input" placeholder="Enter fullname..."/>
+        <small class="form-alert"></small>
+        <input id="submit" type="submit" value="submit"/>
+    </form>
+    <div class="result"></div>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script  type="text/javascript">
+        const result = document.querySelector(".result");
+        const fetchPeople =  async ()=>{
+            try{
+                const data = await axios.get("/api/people");
+                console.log(data);
+                console.log(data.data)
+                console.log(data.data.success);
+                console.log(data.data.data);
+                console.log(data.data.data.people);
+                let myArray = data.data.data.people;
+                console.log(myArray);
+                let user_names = []
+                for (let i = 0; i < myArray.length; i++)
+                {
+                    console.log(myArray[i].name);
+                    user_names.push(myArray[i].name);
+                }
+                
+                console.log(`user_names array : ${user_names} : type: ${typeof(user_names)}`);
+                // create array object and append data
+                const people = user_names.map((user_name)=>{
+                    return user_name;
+                })
+                console.log(`people data type : ${typeof(people)} and data : ${people}`);
+                // console.log(typeof(people))
+                user_names.forEach((userName)=>{
+                    const p = document.createElement('p');
+                    p.textContent = userName;
+                    result.appendChild(p);
+
+                })
+            }
+            catch(error)
+            {
+                result.innerHTML = "<div class=alert alert-danger'>Can't fetch Data</div>"
+            }
+        }
+        fetchPeople();
+
+        const btn = document.getElementById("submit");
+        const input = document.querySelector(".form-input");
+        const formAlert = document.querySelector(".form-alert");
+
+        btn.addEventListener("click", async (event)=>{
+            event.preventDefault();
+            const nameValue = input.value;
+            console.log(`value of input ${nameValue}`);
+            try{
+                const {data} = await axios.post("/api/people", {name: nameValue});
+                console.log(`data type of data is : ${typeof(data)}`)
+                console.log("data object is : ")
+                console.log(data)
+                console.log("data.success is :")
+                console.log(data.sucess)
+                console.log("data.data is :")
+                console.log(data.data)
+                const new_user = data.data;
+
+                console.log(`Name of new_user is : ${new_user}`)
+                const p = document.createElement("p");
+                console.log(p);
+                p.textContent = new_user;
+                result.appendChild(p);
+            }
+            catch(error)
+            {
+                formAlert.textContent = error.response.data.msg;
+            };
+            input.value = '';
+
+        })
+    </script>
+</body>
+</html>
