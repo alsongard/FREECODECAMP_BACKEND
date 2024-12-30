@@ -38,7 +38,17 @@ form input[type="submit"]
 }
 div{
     display: flex;
-    justify-content: space-between;
     width: 200px;
+
     /* background-color: red; */
+}
+.result{
+    /* width: 1000px; */
+    margin:0 auto;
+}
+.result > p
+{
+    margin-right: 10px;
+    color:black;
+    background-color: aqua;
 }
