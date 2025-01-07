@@ -1,4 +1,5 @@
 // file handler for form submission on traditional and Javascript forms.
+// copy to app.js file or nodemon 13-form-submission.js
 const express = require("express");
 const peopleData  = require("./new_data.js");
 const app = express();
@@ -9,6 +10,7 @@ const exp = require("constants");
 app.use(express.static(path.join(__dirname, "methods_public")));  // middleware used for static pages
 app.use(express.urlencoded({extended: false})); // middleware used for traditional form
 app.use(express.json()) // another inbuilt middleware used for javascript form
+
 app.get("/api/people",(request,response)=>{
     response.status(200).json({success: true, data:peopleData})
 });
