@@ -82,11 +82,11 @@ app.put("/api/people/:id", (request, response)=>{
 
     if (!personFound)
     {
-        response.status(400).send({success: false, msg: "Person Not found"})
+        response.status(400).json({success: false, msg: "Person Not found"})
     }
     else{
 
-        response.status(200).send(people)
+        response.status(200).json({success: true, data: people})
     }
 })
 
