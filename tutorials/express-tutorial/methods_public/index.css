@@ -3,6 +3,10 @@
     padding:0;
     box-sizing: border-box;
 }
+.navbar{
+    /* background-color: red; */
+    justify-content: space-between;
+}
 header{
     background-color: rgba(52, 4, 61, 0.856);
     display: flex;

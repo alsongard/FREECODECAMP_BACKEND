@@ -690,6 +690,9 @@ app.post("/login", (request, response)=>{
 
 
 2. Javascript Form Submission
+when submitting data using the javascript form, we first display the details from the data.js file which contains user_names and append them to result div element. we use the ``api/people``get route.
+to submit data we use the ``app.post()`` method. we get the url using the ``await axios.post("/api/people", {name: nameValue});`` and create an object with a property ``name`` assigned the value ``nameValue``. The multiple ``console.log`` statements aid in getting the correct piece of data in the object. We use ``addEventListener`` that is set to the submit button and append the new username to the result div element. 
+
 step 1: create javascript form  
 step 2: create result div  
 step 3: display the data from "/api/people" using axios get method.
@@ -808,3 +811,5 @@ app.post("/api/people", (request, response)=>{
 ```
 
 
+## POSTMAN
+testing our api routes

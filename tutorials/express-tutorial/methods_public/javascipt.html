@@ -9,12 +9,13 @@
 <body>
     <header>
         <h1>HTTP METHODS</h1>
-        <div>
+        <div class="navbar">
             <p><a href="./index.html">Regular </a></p>
             <p><a href="./javascipt.html">Javascript</a></p>
         </div>
     </header>
     <form>
+        <label>Javascript Form</label>
         <input type="text" name="name" id="name" class="form-input" placeholder="Enter fullname..."/>
         <small class="form-alert"></small>
         <input id="submit" type="submit" value="submit"/>
@@ -29,12 +30,17 @@
         const fetchPeople =  async ()=>{
             try{
                 const data = await axios.get("/api/people");
+                console.log("This is data : ")
                 console.log(data);
-                console.log(data.data)
+
+                console.log("This is data.data.data : ")
+                console.log(data.data.data)
+
+                console.log("This is data.data.success : ")
                 console.log(data.data.success);
-                console.log(data.data.data);
-                console.log(data.data.data.people);
-                let myArray = data.data.data.people;
+                
+;
+                let myArray = data.data.data;
                 console.log(myArray);
                 let user_names = []
                 for (let i = 0; i < myArray.length; i++)
@@ -62,16 +68,17 @@
                 result.innerHTML = "<div class=alert alert-danger'>Can't fetch Data</div>"
             }
         }
-        fetchPeople();
+        fetchPeople(); // runs the above function
 
         const btn = document.getElementById("submit");
         const input = document.querySelector(".form-input");
         const formAlert = document.querySelector(".form-alert");
 
         btn.addEventListener("click", async (event)=>{
-            event.preventDefault();
+            event.preventDefault(); // we set this to capture the user data before emptying the inputs
             const nameValue = input.value;
             console.log(`value of input ${nameValue}`);
+
             try{
                 const {data} = await axios.post("/api/people", {name: nameValue});
                 console.log(`data type of data is : ${typeof(data)}`)

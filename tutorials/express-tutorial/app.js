@@ -1,19 +1,28 @@
 const express = require("express");
-const peopleData  = require("./new_data.js");
+const {people}  = require("./new_data.js");
 const app = express();
 const path = require("path");
 const exp = require("constants");
+const { type } = require("os");
 
-
+// console.log(people);
+// console.log(typeof(people))
+// console.log(module);
 app.use(express.static(path.join(__dirname, "methods_public")));  // middleware used for static pages
 app.use(express.urlencoded({extended: false})); // middleware used for traditional form
 app.use(express.json()) // another inbuilt middleware used for javascript form
+
+
+
 app.get("/api/people",(request,response)=>{
-    response.status(200).json({success: true, data:peopleData})
+    console.log(people);
+    response.status(200).json({success: true, data:people})
 });
 
 
 app.post("/api/people", (request, response)=>{
+    console.log("this is request body: ")
+    console.log(request.body)
     const {name} = request.body;
     // console.log(`Type of request body is : ${request.body} and data is : ${request.body}`)
     console.log(name); // prints out the value inpute by the user as an object
@@ -26,6 +35,21 @@ app.post("/api/people", (request, response)=>{
     }
 });
 
+
+app.post("/api/postman/people", (request, response)=>{
+    console.log(`Type of poepleData is : ${typeof(peopleData)}`)
+    const {name} = request.body;
+    console.log(request.body);
+    console.log(name);
+    if (name)
+    {
+        response.status(200).send({sucess: true, data :[...people, name]});
+    }
+    else
+    {
+        response.status(400).send({sucess: false, msg: "please provide a name"})
+    }
+})
 app.post("/login", (request, response)=>{
     // console.log(request.body) // prints [Object: null prototype] { fullName: 'Arcade VI Jinx' }
     const {fullName} = request.body;
