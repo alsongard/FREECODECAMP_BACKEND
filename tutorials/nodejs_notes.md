@@ -483,7 +483,25 @@ To handle route parameters with white space use ``%20`` encode value that repres
 Example:
 ``localhost:5000/product/living%20room``
 
+For multiple parameters we use the backslash (/) to seperate the parameters.
+```
+app.get("/api/products/:category/:id", (request, response)=>{
+    const {category, id} = request.params;
+    const productFound = producctData.map((productItem)=>{
+        if (category === productItem.category)
+        {
+            if (productItem.id === id)
+            {
+                return productItem;
+            }
+        }
+    })
 
+    const {id, category, name, description, price} = productFound;
+
+    response.status(400).send(`<p>Product Description: ${id} ${name}  ${category} ${description} ${price}</p>`)
+})
+```
 
 **Query String Parameters**
 sends small information to the servers using the url
@@ -813,3 +831,13 @@ app.post("/api/people", (request, response)=>{
 
 ## POSTMAN
 testing our api routes
+
+
+## express router
+create a routes folder and withing that folder create files that will hold the different ``app.get()`` routes.
+
+```
+- routes
+    -auth.js
+    -people.js
+```
