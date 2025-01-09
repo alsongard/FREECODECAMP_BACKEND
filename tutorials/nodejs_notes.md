@@ -841,3 +841,77 @@ create a routes folder and withing that folder create files that will hold the d
     -auth.js
     -people.js
 ```
+Move eveery Route that has similarity functionality to people.js file and login functionality to auth.js.
+
+in aut.js and people.js file replace:
+``app`` with ``router``
+Example:
+auth.js file
+```
+const express = require("express");
+const router = express.Router();
+router.get("/", (request, response)=>{
+    const {fullName} = request.body;
+    // response.send("<p>POST working</p>");
+    if (!fullName)
+    {
+        return response.status(404).send("<p>Enter full name </p>");
+
+    }
+    else{
+        response.status(200).send(`My body is on the line now i can't feel this time now from  ${fullName}`)
+    }
+})
+```
+
+In app.js do the following:
+```
+app.use("/api/people", people);
+app.use("/auth", login);
+```
+
+
+# controllers
+create folder **controllers** and within create **people.js** file. create several functions and copy each route to the givenFunctions.
+```
+-controllers
+    -people.js
+```
+
+people.js file:  
+```
+const getPeople = (request, response)=>{
+
+}
+const createPerson = (request,response)=>{
+
+}
+const updatePerson = (request,response)=>{
+    
+}
+const deletePerson = (request,response)=>{
+    
+}
+module.exports =  {
+    getPeople,
+    createPerson,
+    updatePerson,
+    deletePerson
+}
+```
+In each of the above function copy app routes form *../routes/peoeple.js*.
+In **./routes/people.js** do the following:
+```
+
+const {
+    getPeople,
+    createPerson,
+    updatePerson,
+    deletePerson
+} = require("../controllers/people")
+router.get("/", getPeople);
+router.post("/", createPerson);
+router.post("/postman", createPersonPostman);
+router.put("/:id", updatePerson);
+router.delete("/:id", deletePerson)
+

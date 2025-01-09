@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const {people}  = require("../new_data.js");
+app.use(express.static(path.join(__dirname, "methods_public")));  // middleware used for static pages
+app.use(express.urlencoded({extended: false})); // middleware used for traditional form
+app.use(express.json()) // another inbuilt middleware used for javascript form
 
 router.get("/",(request,response)=>{
     console.log(people);
