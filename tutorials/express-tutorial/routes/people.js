@@ -1,5 +1,7 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
+const path = require("path");
 const {people}  = require("../new_data.js");
 app.use(express.static(path.join(__dirname, "methods_public")));  // middleware used for static pages
 app.use(express.urlencoded({extended: false})); // middleware used for traditional form
@@ -10,7 +12,7 @@ router.get("/",(request,response)=>{
     response.status(200).json({success: true, data:people})
 });
 
-
+// javascript form file
 router.post("/", (request, response)=>{
     console.log("this is request body: ")
     console.log(request.body)
@@ -28,7 +30,7 @@ router.post("/", (request, response)=>{
 
 
 router.post("/postman", (request, response)=>{
-    console.log(`Type of poepleData is : ${typeof(peopleData)}`)
+    console.log(`Type of poepleData is : ${typeof(people)}`)
     const {name} = request.body;
     console.log(request.body);
     console.log(name);
@@ -54,6 +56,7 @@ router.put("/:id", (request, response)=>{
     const personFound =  people.find((peopleItem)=>{
         if (peopleItem.id === new_id)
         {
+            console.log(peopleItem);
             return peopleItem.name = names;
         }
     })
