@@ -8,8 +8,8 @@ const app = express();
 app.use(express.json());
 
 
-app.get("/", (req,res)=>{
-    res.send("Node Api Running : running till now : Successfully installed nodemon : Only refresh on browser");
+app.get("/", (request,response)=>{
+    response.send("Node Api Running : running till now : Successfully installed nodemon : Only refresh on browser");
 });
 
 
@@ -24,9 +24,14 @@ app.post("/api/products", (req, res)=>{
     }
 })
 
-mongoose.connect("mongodb+srv://alsongard:UBsTr9zfJlQSE07E@backend.brhgn.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Backend")
-.then( ()=>{
-    app.listen(3000, ()=>{ console.log("Server is running on port 3000");});
-    console.log("Connected to the database");
+// mongoose.connect("mongodb+srv://alsongard:UBsTr9zfJlQSE07E@backend.brhgn.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Backend")
+// .then( ()=>{
+//     app.listen(3000, ()=>{ console.log("Server is running on port 3000");});
+//     console.log("Connected to the database");
+// })
+// .catch(error => console.log(error));
+
+
+app.listen(5000, ()=>{
+    console.log("Listening on port 5000");
 })
-.catch(error => console.log(error));
