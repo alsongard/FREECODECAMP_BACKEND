@@ -6,6 +6,8 @@ const Product = require("./models/product.model");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({extended: false})); // to use form submission
+
 
 const username = process.env.username;
 const password = process.env.password;
@@ -55,7 +57,7 @@ app.post("/api/products", async (request, response)=>{
     }
     catch(error)
     {
-        response.status(500).json({success: false, message: message.error}); //status 500 is a server error
+        response.status(500).json({success: false, message: `Error: ${error.message}`}); //status 500 is a server error
     }
 });
 
