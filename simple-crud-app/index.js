@@ -44,6 +44,7 @@ app.get("/api/product/:id",async (request, response)=>{
     }
 })
 
+//enter product
 app.post("/api/products", async (request, response)=>{
     // console.log(request.body)
     // response.send(request.body)
@@ -54,9 +55,35 @@ app.post("/api/products", async (request, response)=>{
     }
     catch(error)
     {
-        res.status(500).json({success: false, message: message.error}); //status 500 is a server error
+        response.status(500).json({success: false, message: message.error}); //status 500 is a server error
     }
+});
+
+//update product
+app.put("/api/product/:productId", async (request, response)=>{
+    //get parameters
+    try{
+        const myproductId = request.params.productId;
+    
+        // get product //find productById
+        const product = await Product.findByIdAndUpdate(myproductId, request.body);
+        if (!product)
+        {
+            response.status(200).json({success: true, msg: `Product by id ${myproductId} not found`})
+        }
+
+        const updateProduct = await Product.findById(myproductId);
+        response.status(200).json({success: true, data: updateProduct});
+    }
+    catch(error)
+    {
+        response.status(500).send(`Error: ${error.message}`);
+    }
+    
+
 })
+
+
                 // "mongodb+src://userName:password@clusterName.nrurtot.mongodb.net/NODE-API?retryWrites=true&w="
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.g3vdrwa.mongodb.net/NODE-API?retryWrites=true&w=majority&appName=Cluster`)
 .then( ()=>{
