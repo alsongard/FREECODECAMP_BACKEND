@@ -83,6 +83,27 @@ app.put("/api/product/:productId", async (request, response)=>{
 
 })
 
+// detele product
+app.delete("/api/deleteproduct/:id", async (request, response)=>{
+    // get id by destructuring
+    const {id} = request.params;
+
+    try{
+        const product  = await Product.findByIdAndDelete(id);
+        if (!product)
+            {
+                response.status(200).json({success: true, msg: `Product by id : ${id} not found.`});
+            }
+        // console.log(product);
+        response.status(200).json({success: true, msg:`Product by id : ${id}  found and deleted.`});
+    }
+    catch(error)
+    {
+        response.status(500).send(`Error: ${error.message}`);
+    }
+})
+
+
 
                 // "mongodb+src://userName:password@clusterName.nrurtot.mongodb.net/NODE-API?retryWrites=true&w="
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.g3vdrwa.mongodb.net/NODE-API?retryWrites=true&w=majority&appName=Cluster`)
