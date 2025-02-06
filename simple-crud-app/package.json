@@ -13,8 +13,8 @@
   "description": "",
   "dependencies": {
     "express": "^4.21.0",
-    "mongodb": "^6.9.0",
-    "mongoose": "^8.9.5"
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.10.0"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
