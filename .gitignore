@@ -7,3 +7,7 @@ simple-crud-app/node_modules/
 /password_setup
 
 tutorials/node_modules/
+
+
+*/node_modules/
+*/**/.env
